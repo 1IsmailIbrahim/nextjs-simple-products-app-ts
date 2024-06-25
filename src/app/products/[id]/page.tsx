@@ -1,24 +1,30 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { GET } from "@/app/api/products/[id]/route";
+import type { Metadata } from "next";
 
 interface IProps {
   params: { id: string };
 }
 
-async function getProduct(id: number) {
-  const res = await fetch(`https://dummyjson.com/products/${id}`);
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+  const id = params.id;
+  const { title, description, images } = await fetch(
+    `https://dummyjson.com/products/${id}`
+  ).then((res) => res.json());
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
+  return {
+    title,
+    description,
+    openGraph: {
+      images,
+    },
+  };
 }
 
 const ProductPage = async ({ params }: IProps) => {
-  const { title, category, description, price, thumbnail } = await getProduct(
-    +params.id
+  const { title, category, description, price, thumbnail } = await GET(
+    params.id
   );
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
