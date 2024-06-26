@@ -1,18 +1,18 @@
 import React, { Suspense } from "react";
 import ProductsList from "@/components/ProductsList";
 import ProductsSkeleton from "@/components/ProductsSkeleton";
-import { GET } from "../api/products/route";
 
-// async function getProducts() {
-//   const res = await fetch("http://localhost:3000/api/products");
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch data");
-//   }
-//   return res.json();
-// }
+async function getProducts() {
+  const res = await fetch("http://localhost:3000/api/products");
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  console.log(res);
+  return res.json();
+}
 
 const ProductsPage = async () => {
-  const { products } = await GET();
+  const { products } = await getProducts();
   return (
     <main className="min-h-screen bg-gray-900 text-white p-8">
       <section className="max-w-5xl mx-auto text-center">

@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { GET } from "@/app/api/products/[id]/route";
 import type { Metadata } from "next";
 
 interface IProps {
@@ -22,8 +21,16 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
   };
 }
 
+async function getProducts(id: string) {
+  const res = await fetch(`https://dummyjson.com/products/${id}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
+
 const ProductPage = async ({ params }: IProps) => {
-  const { title, category, description, price, thumbnail } = await GET(
+  const { title, category, description, price, thumbnail } = await getProducts(
     params.id
   );
   return (
