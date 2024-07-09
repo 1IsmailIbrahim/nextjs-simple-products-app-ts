@@ -8,15 +8,18 @@ interface IProduct {
   description: string;
   thumbnail: string;
 }
-async function getProducts() {
-  const res = await fetch(`https://dummyjson.com/products?limit=3`);
+
+const getProducts = async () => {
+  const res = await fetch("https://dummyjson.com/products?limit=3", {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
 
   return res.json();
-}
+};
 
 const Home = async () => {
   const { products } = await getProducts();
