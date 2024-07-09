@@ -10,9 +10,8 @@ interface IProduct {
 }
 
 const getProducts = async () => {
-  const res = await fetch("https://dummyjson.com/products?limit=3", {
-    cache: "no-store",
-  });
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://dummyjson.com";
+  const res = await fetch(`${apiUrl}/products?limit=3`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
